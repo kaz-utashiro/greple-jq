@@ -1,5 +1,5 @@
 package App::Greple::jq;
-use 5.008001;
+use 5.014;
 use strict;
 use warnings;
 
@@ -14,26 +14,26 @@ __END__
 
 =head1 NAME
 
-App::Greple::jq - It's new $module
+App::Greple::jq - greple -Mjq module
 
 =head1 SYNOPSIS
 
-    use App::Greple::jq;
+    greple -Mjq ...
 
 =head1 DESCRIPTION
 
-App::Greple::jq is ...
-
-=head1 LICENSE
-
-Copyright (C) Kazumasa Utashiro.
-
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
+This is a module for L<App::Greple> command to provide interface for L<jq(1)> command.
 
 =head1 AUTHOR
 
-Kazumasa Utashiro E<lt>kaz@utashiro.comE<gt>
+Kazumasa Utashiro
+
+=head1 LICENSE
+
+Copyright 2022 Kazumasa Utashiro
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
 
 =cut
 

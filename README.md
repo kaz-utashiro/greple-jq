@@ -1,22 +1,22 @@
 # NAME
 
-App::Greple::jq - It's new $module
+App::Greple::jq - greple -Mjq module
 
 # SYNOPSIS
 
-    use App::Greple::jq;
+    greple -Mjq ...
 
 # DESCRIPTION
 
-App::Greple::jq is ...
-
-# LICENSE
-
-Copyright (C) Kazumasa Utashiro.
-
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
+This is a module for [App::Greple](https://metacpan.org/pod/App::Greple) command to provide interface for [jq(1)](http://man.he.net/man1/jq) command.
 
 # AUTHOR
 
-Kazumasa Utashiro <kaz@utashiro.com>
+Kazumasa Utashiro
+
+# LICENSE
+
+Copyright 2022 Kazumasa Utashiro
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
