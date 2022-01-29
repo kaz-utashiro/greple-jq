@@ -1,5 +1,5 @@
 {
-   "abstract" : "greple -Mjq module",
+   "abstract" : "greple module for jq frontend",
    "author" : [
       "Kazumasa Utashiro"
    ],
@@ -42,7 +42,7 @@
       },
       "runtime" : {
          "requires" : {
-            "App::Greple" : "0",
+            "App::Greple" : "8.54",
             "perl" : "5.014"
          }
       },
@@ -53,6 +53,17 @@
       }
    },
    "release_status" : "unstable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/kaz-utashiro/greple-jq/issues"
+      },
+      "homepage" : "https://github.com/kaz-utashiro/greple-jq",
+      "repository" : {
+         "type" : "git",
+         "url" : "git://github.com/kaz-utashiro/greple-jq.git",
+         "web" : "https://github.com/kaz-utashiro/greple-jq"
+      }
+   },
    "version" : "0.01",
    "x_authority" : "cpan:UTASHIRO",
    "x_contributors" : [

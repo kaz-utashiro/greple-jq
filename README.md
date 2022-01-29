@@ -1,3 +1,4 @@
+[![Actions Status](https://github.com/kaz-utashiro/greple-jq/workflows/test/badge.svg)](https://github.com/kaz-utashiro/greple-jq/actions)
 # NAME
 
 greple -Mjq - greple module for jq frontend

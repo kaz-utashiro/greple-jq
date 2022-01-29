@@ -1,7 +1,9 @@
 name = "App-Greple-jq"
-# badges = ["travis-ci.com"]
+badges = [ 'github-actions/test' ]
 authority="cpan:UTASHIRO"
 
 module_maker="ModuleBuildTiny"
 static_install = "auto"
 
+[release]
+do_not_upload_to_cpan = true
