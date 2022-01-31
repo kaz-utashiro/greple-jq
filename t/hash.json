@@ -4,12 +4,12 @@
   "commit": {
     "author": {
       "name": "Kazumasa Utashiro (author)",
-      "email": "kaz@utashiro.com",
+      "email": "kaz@utashiro.com (author)",
       "date": "2022-01-29T04:23:44Z"
     },
     "committer": {
       "name": "Kazumasa Utashiro (committer)",
-      "email": "kaz@utashiro.com",
+      "email": "kaz@utashiro.com (committer)",
       "date": "2022-01-29T04:23:44Z"
     },
     "message": "Update copyright year.",
@@ -83,12 +83,12 @@
   "commit": {
     "author": {
       "name": "Kazumasa Utashiro (author)",
-      "email": "kaz@utashiro.com",
+      "email": "kaz@utashiro.com (author)",
       "date": "2022-01-29T04:13:20Z"
     },
     "committer": {
       "name": "Kazumasa Utashiro (committer)",
-      "email": "kaz@utashiro.com",
+      "email": "kaz@utashiro.com (committer)",
       "date": "2022-01-29T04:13:20Z"
     },
     "message": "Make --face not to change colorspec if already effective.",
@@ -162,12 +162,12 @@
   "commit": {
     "author": {
       "name": "Kazumasa Utashiro (author)",
-      "email": "kaz@utashiro.com",
+      "email": "kaz@utashiro.com (author)",
       "date": "2021-12-29T04:51:28Z"
     },
     "committer": {
       "name": "Kazumasa Utashiro (committer)",
-      "email": "kaz@utashiro.com",
+      "email": "kaz@utashiro.com (committer)",
       "date": "2021-12-29T04:51:28Z"
     },
     "message": "Accept file \"-\" as a STDIN.",
@@ -241,12 +241,12 @@
   "commit": {
     "author": {
       "name": "Kazumasa Utashiro (author)",
-      "email": "kaz@utashiro.com",
+      "email": "kaz@utashiro.com (author)",
       "date": "2021-12-29T03:32:30Z"
     },
     "committer": {
       "name": "Kazumasa Utashiro (committer)",
-      "email": "kaz@utashiro.com",
+      "email": "kaz@utashiro.com (committer)",
       "date": "2021-12-29T03:32:30Z"
     },
     "message": "Rename submodule.",
