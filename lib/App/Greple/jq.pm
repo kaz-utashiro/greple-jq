@@ -18,8 +18,8 @@ You can search object C<.commit.author.name> includes C<Marvin> like this:
     greple -Mjq --IN .commit.author.name Marvin data.json
 
 Please be aware that this is just a text matching tool for indented
-result of L<jq(1)> command.  So C<.commit.author> includes everything
-under it and it maches C<committer> filed name.
+result of L<jq(1)> command.  So, for example, C<.commit.author>
+includes everything under it and it maches C<committer> field name.
 
 =head1 CAUTION
 
@@ -120,6 +120,21 @@ Object any <path> contains C<_mira> under C<.file> and C<.event> contains C<WRIT
 
     greple -Mjq --glob filemon.json --IN .file..path _mina --IN .event WRITE
 
+=head1 TIPS
+
+Use C<--all> option to show entire data.
+
+Use C<--nocolor> option or set C<NO_COLOR=1> to disable colored
+output.
+
+Use C<--blockend=> option to cancel showing block separator.
+
+Use C<-o> option to show only matched part.
+
+Sine this module implements original search funciton, L<greple(1)>
+B<-i> does not take effect.  Set modifier in regex like
+C<(?i)pattern> if you want case-insensitive match.
+
 =head1 SEE ALSO
 
 L<App::Greple>, L<https://github.com/kaz-utashiro/greple>
@@ -156,7 +171,7 @@ use App::Greple::Regions qw(match_regions merge_regions);
 use Data::Dumper;
 
 our $debug;
-sub debug { $debug = 1 }
+sub debug { $debug ^= 1 }
 
 my $indent = '  ';
 my $indent_re = qr/$indent/;
@@ -176,12 +191,11 @@ sub leader_regex {
 		qr{
 		    ^ ([ ]*) "$lead": .* \n
 		    (?:
-			(?: # indented array/hash
-			    \g{-1} $indent_re \S .* [\[\{] \n
-			    (?: \g{-1} $indent_re \s .* \n)*?
-			    \g{-1} $indent_re [\]\}] ,? \n
-			)
-		        |
+			# indented array/hash
+			\g{-1} $indent_re \S .* [\[\{] \n
+			(?: \g{-1} $indent_re \s .* \n) *
+			\g{-1} $indent_re [\]\}] ,? \n
+		    |
 			\g{-1} $indent_re $start_with .++ \n
 		    ) *
 		}xm;

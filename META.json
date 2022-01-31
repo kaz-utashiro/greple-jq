@@ -42,7 +42,7 @@
       },
       "runtime" : {
          "requires" : {
-            "App::Greple" : "8.54",
+            "App::Greple" : "8.5501",
             "perl" : "5.014"
          }
       },

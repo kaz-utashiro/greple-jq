@@ -17,8 +17,8 @@ You can search object `.commit.author.name` includes `Marvin` like this:
     greple -Mjq --IN .commit.author.name Marvin data.json
 
 Please be aware that this is just a text matching tool for indented
-result of [jq(1)](http://man.he.net/man1/jq) command.  So `.commit.author` includes everything
-under it and it maches `committer` filed name.
+result of [jq(1)](http://man.he.net/man1/jq) command.  So, for example, `.commit.author`
+includes everything under it and it maches `committer` field name.
 
 # CAUTION
 
@@ -110,6 +110,21 @@ Object `*pid` labels contains 803.
 Object any <path> contains `_mira` under `.file` and `.event` contains `WRITE`.
 
     greple -Mjq --glob filemon.json --IN .file..path _mina --IN .event WRITE
+
+# TIPS
+
+Use `--all` option to show entire data.
+
+Use `--nocolor` option or set `NO_COLOR=1` to disable colored
+output.
+
+Use `--blockend=` option to cancel showing block separator.
+
+Use `-o` option to show only matched part.
+
+Sine this module implements original search funciton, [greple(1)](http://man.he.net/man1/greple)
+**-i** does not take effect.  Set modifier in regex like
+`(?i)pattern` if you want case-insensitive match.
 
 # SEE ALSO
 
