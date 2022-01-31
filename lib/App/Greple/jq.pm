@@ -205,8 +205,9 @@ sub leader_regex {
 	    if ($lead eq '') {
 		length($dot) > 1 ? '' : qr{ ^ (?= $indent_re \S) }xm;
 	    } else {
+		my $group = ($leader eq '' and length($dot) == 1) ? '?<level>' : '';
 		qr{
-		    ^ ([ ]*) "$lead": .* \n
+		    ^ ($group[ ]*) "$lead": .* \n
 		    (?:
 			\g{-1} $indent_re $start_with .++ \n
 		    |
@@ -233,9 +234,12 @@ sub IN {
     my @lead_re;
     $label =~ s/^(.*\.)// and @lead_re = leader_regex($1);
     $label =~ s/%/.*/g;
+    my $dummy = grep(/<level>/, @lead_re) ? '' : '(?<level>(?!))?';
     my $re = qr{
-	@lead_re \K
-	^(?<in> [ ]*) "$label": [ ]*+
+	@lead_re $dummy \K
+	^
+	(?(<level>) (?= \g{level} $indent_re \S ) )
+	(?<in> [ ]*) "$label": [ ]*+
 	(?: . | \n\g{in} \s++ ) *
 	$pattern
 	(?: . | \n\g{in} (?: \s++ | [\]\}] ) ) *

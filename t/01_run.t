@@ -35,6 +35,13 @@ like(jq(qw(--glob t/hash.json -o --blockend= --IN commit.author.email .))->run->
 line(jq(qw(--glob t/hash.json -o --blockend= --IN commit..email .)      )->run->{stdout}, 4, "commit..email");
 like(jq(qw(--glob t/hash.json -o --blockend= --IN commit..email .)      )->run->{stdout}, qr/author/, "commit..email match");
 
+
+TODO: {
+local $TODO = 'commit.author.name matches commit.name whne "name" is the first entry.';
+line(jq(qw(--glob t/hash.json -o --blockend= --IN commit.name .)       )->run->{stdout}, 0, "commit.name");
+}
+line(jq(qw(--glob t/hash.json -o --blockend= --IN commit..name .)       )->run->{stdout}, 4, "commit..name");
+
 done_testing;
 
 __DATA__
