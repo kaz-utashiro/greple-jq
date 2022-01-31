@@ -29,5 +29,6 @@ jobs:
 #        with:
 #          tools: App::Greple
       - run: perl -V
+      - run: cpanm --installdeps --notest App::Greple
       - run: cpanm --installdeps --notest .
       - run: prove -lvr t
