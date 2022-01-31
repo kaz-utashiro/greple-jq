@@ -204,7 +204,7 @@ sub leader_regex {
 		    |
 			# indented array/hash
 			\g{-1} $indent_re \S .* [\[\{] \n
-			(?: \g{-1} $indent_re \s .* \n) *
+			(?: \g{-1} $indent_re \s .*+ \n) *+
 			\g{-1} $indent_re [\]\}] ,? \n
 		    ) *?
 		}xm;
