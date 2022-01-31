@@ -35,6 +35,14 @@ Use L<jq(1)> filter for more complex and precise operation.
 L<greple(1)> commands read entire input before processing.  So it
 should not be used for large amount of data or inifinite stream.
 
+=head1 INSTALL
+
+=head2 CPANMINUS
+
+    $ cpanm App::Greple::jq
+    or
+    $ curl -sL http://cpanmin.us | perl - App::Greple::jq
+
 =head1 OPTIONS
 
 =over 7

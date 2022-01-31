@@ -34,6 +34,14 @@ Use [jq(1)](http://man.he.net/man1/jq) filter for more complex and precise opera
 [greple(1)](http://man.he.net/man1/greple) commands read entire input before processing.  So it
 should not be used for large amount of data or inifinite stream.
 
+# INSTALL
+
+## CPANMINUS
+
+    $ cpanm App::Greple::jq
+    or
+    $ curl -sL http://cpanmin.us | perl - App::Greple::jq
+
 # OPTIONS
 
 - **--IN** _label_ _pattern_
