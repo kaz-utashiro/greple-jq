@@ -205,9 +205,12 @@ sub leader_regex {
 	    if ($lead eq '') {
 		length($dot) > 1 ? '' : qr{ ^ (?= $indent_re \S) }xm;
 	    } else {
-		my $group = ($leader eq '' and length($dot) == 1) ? '?<level>' : '';
+		##
+		## Make capture group <level> if it is required.
+		##
+		my $level = ($leader eq '' and length($dot) == 1) ? '?<level>' : '';
 		qr{
-		    ^ ($group[ ]*) "$lead": .* \n
+		    ^ (${level} $indent_re*) "$lead": .* \n
 		    (?:
 			\g{-1} $indent_re $start_with .++ \n
 		    |
@@ -221,6 +224,9 @@ sub leader_regex {
 	};
 	push @lead_re, $lead_re if $lead_re;
     }
+    unless (grep /\(\?<level>/, @lead_re) {
+	push @lead_re, qr/(?<level>(?!))?/; # just to fail
+    }
     @lead_re
 }
 
@@ -230,15 +236,12 @@ sub IN {
     my($label, $pattern) = @opt{qw(label pattern)};
     my $lead_re = '';
     my $indent_re = qr/  /;
-
-    my @lead_re;
-    $label =~ s/^(.*\.)// and @lead_re = leader_regex($1);
+    my @lead_re = $label =~ s/^((?:.*\.)?)// && leader_regex($1);
     $label =~ s/%/.*/g;
-    my $dummy = grep(/<level>/, @lead_re) ? '' : '(?<level>(?!))?';
     my $re = qr{
-	@lead_re $dummy \K
+	@lead_re \K
 	^
-	(?(<level>) (?= \g{level} $indent_re \S ) )
+	(?(<level>) (?= \g{level} $indent_re \S ) )	# required level
 	(?<in> [ ]*) "$label": [ ]*+
 	(?: . | \n\g{in} \s++ ) *
 	$pattern
