@@ -233,7 +233,7 @@ sub IN {
 
 __DATA__
 
-define JSON-OBJECTS ^([ ]*){(?s:.*?)^\g{-1}},?\n
+define JSON-OBJECTS ^([ ]*)\{(?s:.*?)^\g{-1}\},?\n
 
 option default \
 	--json-block --jq-filter
