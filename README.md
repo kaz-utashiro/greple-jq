@@ -5,7 +5,7 @@ greple -Mjq - greple module for jq frontend
 
 # SYNOPSIS
 
-greple -Mjq --glob foo.json --IN label pattern
+greple -Mjq --glob JSON-DATA --IN label pattern
 
 # DESCRIPTION
 
@@ -14,11 +14,20 @@ interface for [jq(1)](http://man.he.net/man1/jq) command.
 
 You can search object `.commit.author.name` includes `Marvin` like this:
 
-    greple -Mjq --IN .commit.author.name Marvin data.json
+    greple -Mjq --IN .commit.author.name Marvin
+
+Search first `name` field including `Marvin` under `.commit`:
+
+    greple -Mjq --IN .commit..name Marvin
+
+Search any `author.name` field including `Marvin`:
+
+    greple -Mjq --IN author.name Marvin
 
 Please be aware that this is just a text matching tool for indented
 result of [jq(1)](http://man.he.net/man1/jq) command.  So, for example, `.commit.author`
 includes everything under it and it maches `committer` field name.
+Use [jq(1)](http://man.he.net/man1/jq) filter for more complex and precise operation.
 
 # CAUTION
 

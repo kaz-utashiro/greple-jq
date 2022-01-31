@@ -6,7 +6,7 @@ greple -Mjq - greple module for jq frontend
 
 =head1 SYNOPSIS
 
-greple -Mjq --glob foo.json --IN label pattern
+greple -Mjq --glob JSON-DATA --IN label pattern
 
 =head1 DESCRIPTION
 
@@ -15,11 +15,20 @@ interface for L<jq(1)> command.
 
 You can search object C<.commit.author.name> includes C<Marvin> like this:
 
-    greple -Mjq --IN .commit.author.name Marvin data.json
+    greple -Mjq --IN .commit.author.name Marvin
+
+Search first C<name> field including C<Marvin> under C<.commit>:
+
+    greple -Mjq --IN .commit..name Marvin
+
+Search any C<author.name> field including C<Marvin>:
+
+    greple -Mjq --IN author.name Marvin
 
 Please be aware that this is just a text matching tool for indented
 result of L<jq(1)> command.  So, for example, C<.commit.author>
 includes everything under it and it maches C<committer> field name.
+Use L<jq(1)> filter for more complex and precise operation.
 
 =head1 CAUTION
 
@@ -183,7 +192,7 @@ sub leader_regex {
     while ($leader =~ s/^([^.\n]*?)(\.+)//) {
 	my($lead, $dot) = ($1, $2);
 	$lead =~ s/%/.*/g;
-	my $start_with = length($dot) > 1 ? '' : '\S';
+	my $start_with = length($dot) > 1 ? '' : qr/(?=\S)/;
 	my $lead_re = do {
 	    if ($lead eq '') {
 		length($dot) > 1 ? '' : qr{ ^ (?= $indent_re \S) }xm;
@@ -191,13 +200,13 @@ sub leader_regex {
 		qr{
 		    ^ ([ ]*) "$lead": .* \n
 		    (?:
+			\g{-1} $indent_re $start_with .++ \n
+		    |
 			# indented array/hash
 			\g{-1} $indent_re \S .* [\[\{] \n
 			(?: \g{-1} $indent_re \s .* \n) *
 			\g{-1} $indent_re [\]\}] ,? \n
-		    |
-			\g{-1} $indent_re $start_with .++ \n
-		    ) *
+		    ) *?
 		}xm;
 	    }
 	};
