@@ -228,7 +228,7 @@ use App::Greple::Common;
 use App::Greple::Regions qw(match_regions merge_regions);
 use Data::Dumper;
 
-our $debug;
+my $debug;
 sub debug { $debug ^= 1 }
 
 my $indent = '  ';
@@ -259,7 +259,7 @@ sub prefix_regex {
 	    } else {
 		if (length($dot) == 1) {
 		    ## using same capture group name is not a good idea
-		    ## so make sure to put just for the one
+		    ## so make sure to put just for the last one
 		    $level      = '?<level>' if $path eq '';
 		    $start_with = qr/(?=\S)/;
 		}
@@ -291,7 +291,6 @@ sub IN {
     my %opt = @_;
     my $target = delete $opt{&FILELABEL} or die;
     my($label, $pattern) = @opt{qw(label pattern)};
-    my $indent_re = qr/  /;
     my @prefix_re = $label =~ s/^((?:.*\.)?)// && prefix_regex($1);
     $label =~ s/%/.*/g;
     my($label_re, $pattern_re) = map re($_), $label, $pattern;
