@@ -234,6 +234,16 @@ sub debug { $debug ^= 1 }
 my $indent = '  ';
 my $indent_re = qr/$indent/;
 
+sub re {
+    my $pattern = shift;
+    my $re = eval { qr/$pattern/ };
+    if ($@) {
+	die sprintf("$pattern: pattern error - %s\n",
+		    $@ =~ /(.*?(?=;|$))/);
+    }
+    return $re;
+}
+
 sub prefix_regex {
     my $path = shift;
     my @prefix_re;
@@ -241,6 +251,7 @@ sub prefix_regex {
     while ($path =~ s/^([^.\n]*?)(\.+)//) {
 	my($label, $dot) = ($1, $2);
 	$label =~ s/%/.*/g;
+	my $label_re = re($label);
 	my $start_with = '';
 	my $prefix_re = do {
 	    if ($label eq '') {
@@ -253,7 +264,7 @@ sub prefix_regex {
 		    $start_with = qr/(?=\S)/;
 		}
 		qr{
-		    ^ (${level} $indent_re*) "$label": .* \n
+		    ^ (${level} $indent_re*) "$label_re": .* \n
 		    (?:
 			## single line key-value pair
 			\g{-1} $indent_re $start_with .++ \n
@@ -283,12 +294,12 @@ sub IN {
     my $indent_re = qr/  /;
     my @prefix_re = $label =~ s/^((?:.*\.)?)// && prefix_regex($1);
     $label =~ s/%/.*/g;
-    my $pattern_re = eval { qr/$pattern/x };
+    my($label_re, $pattern_re) = map re($_), $label, $pattern;
     my $re = qr{
 	@prefix_re \K
 	^
 	(?(<level>) (?= \g{level} $indent_re \S ) )	# required level
-	(?<in> [ ]*) "$label": [ ]*+			# find given label
+	(?<in> [ ]*) "$label_re": [ ]*+			# find given label
 	(?: . | \n\g{in} \s++ ) *			# and look for ...
 	$pattern_re					# pattern
 	(?: . | \n\g{in} (?: \s++ | [\]\}] ) ) *	# and take the rest
