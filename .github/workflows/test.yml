@@ -29,7 +29,8 @@ jobs:
 #        with:
 #          tools: App::Greple
       - run: perl -V
-      - run: cpanm --installdeps --notest App::Greple
-      - run: perldoc -ml App::Greple
+      - run: cpanm --notest App::Greple
+      - run:   perldoc -lm App::Greple
+      - run:   perl -MApp::Greple -MData::Dumper -E 'print Dumper \%INC'
       - run: cpanm --installdeps --notest .
       - run: prove -lvr t
