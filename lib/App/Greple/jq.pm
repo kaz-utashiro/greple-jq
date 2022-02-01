@@ -219,27 +219,31 @@ sub debug { $debug ^= 1 }
 my $indent = '  ';
 my $indent_re = qr/$indent/;
 
-sub leader_regex {
-    my $leader = shift;
-    my @lead_re;
-    while ($leader =~ s/^([^.\n]*?)(\.+)//) {
-	my($lead, $dot) = ($1, $2);
-	$lead =~ s/%/.*/g;
-	my $start_with = length($dot) > 1 ? '' : qr/(?=\S)/;
-	my $lead_re = do {
-	    if ($lead eq '') {
+sub prefix_regex {
+    my $path = shift;
+    my @prefix_re;
+    my $level = '';
+    while ($path =~ s/^([^.\n]*?)(\.+)//) {
+	my($label, $dot) = ($1, $2);
+	$label =~ s/%/.*/g;
+	my $start_with = '';
+	my $prefix_re = do {
+	    if ($label eq '') {
 		length($dot) > 1 ? '' : qr{ ^ (?= $indent_re \S) }xm;
 	    } else {
-		##
-		## Make capture group <level> if it is required.
-		##
-		my $level = ($leader eq '' and length($dot) == 1) ? '?<level>' : '';
+		if (length($dot) == 1) {
+		    ## using same capture group name is not a good idea
+		    ## so make sure to put just for the one
+		    $level      = '?<level>' if $path eq '';
+		    $start_with = qr/(?=\S)/;
+		}
 		qr{
-		    ^ (${level} $indent_re*) "$lead": .* \n
+		    ^ (${level} $indent_re*) "$label": .* \n
 		    (?:
+			## single line key-value pair
 			\g{-1} $indent_re $start_with .++ \n
 		    |
-			# indented array/hash
+			## indented array/hash
 			\g{-1} $indent_re \S .* [\[\{] \n
 			(?: \g{-1} $indent_re \s .*+ \n) *+
 			\g{-1} $indent_re [\]\}] ,? \n
@@ -247,30 +251,32 @@ sub leader_regex {
 		}xm;
 	    }
 	};
-	push @lead_re, $lead_re if $lead_re;
+	push @prefix_re, $prefix_re if $prefix_re;
     }
-    unless (grep /\(\?<level>/, @lead_re) {
-	push @lead_re, qr/(?<level>(?!))?/; # just to fail
+    if ($level eq '') {
+	## refering named capture group causes error if it is not used
+	## so put dummy expression just to fail
+	push @prefix_re, qr/(?<level>(?!))?/;
     }
-    @lead_re
+    @prefix_re
 }
 
 sub IN {
     my %opt = @_;
     my $target = delete $opt{&FILELABEL} or die;
     my($label, $pattern) = @opt{qw(label pattern)};
-    my $lead_re = '';
     my $indent_re = qr/  /;
-    my @lead_re = $label =~ s/^((?:.*\.)?)// && leader_regex($1);
+    my @prefix_re = $label =~ s/^((?:.*\.)?)// && prefix_regex($1);
     $label =~ s/%/.*/g;
+    my $pattern_re = eval { qr/$pattern/x };
     my $re = qr{
-	@lead_re \K
+	@prefix_re \K
 	^
 	(?(<level>) (?= \g{level} $indent_re \S ) )	# required level
-	(?<in> [ ]*) "$label": [ ]*+
-	(?: . | \n\g{in} \s++ ) *
-	(?> $pattern )
-	(?: . | \n\g{in} (?: \s++ | [\]\}] ) ) *
+	(?<in> [ ]*) "$label": [ ]*+			# find given label
+	(?: . | \n\g{in} \s++ ) *			# and look for ...
+	$pattern_re					# pattern
+	(?: . | \n\g{in} (?: \s++ | [\]\}] ) ) *	# and take the rest
     }xm;
     warn "$re\n" if $debug;
     match_regions pattern => $re;
