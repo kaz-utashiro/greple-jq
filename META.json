@@ -1,5 +1,5 @@
 {
-   "abstract" : "greple module for jq frontend",
+   "abstract" : "greple module to search JSON data with jq",
    "author" : [
       "Kazumasa Utashiro"
    ],

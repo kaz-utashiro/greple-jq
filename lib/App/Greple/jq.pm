@@ -2,7 +2,7 @@
 
 =head1 NAME
 
-greple -Mjq - greple module for jq frontend
+greple -Mjq - greple module to search JSON data with jq
 
 =head1 SYNOPSIS
 
@@ -14,8 +14,13 @@ Version 0.03
 
 =head1 DESCRIPTION
 
-This is an experimental module for L<App::Greple> command to provide
-interface for L<jq(1)> command.
+This is an experimental module for L<App::Greple> to search JSON
+formatted text using L<jq(1)> as a backend.
+
+Search top level json object which includes both C<Marvin> and
+C<Zaphod> somewhare in its text representation.
+
+    greple -Mjq 'Marvin Zaphod'
 
 You can search object C<.commit.author.name> includes C<Marvin> like this:
 
@@ -29,6 +34,10 @@ Search any C<author.name> field including C<Marvin>:
 
     greple -Mjq --IN author.name Marvin
 
+Search C<name> is C<Marvin> and C<type> is C<Robot> or C<Android>:
+
+    greple -Mjq --IN name Marvin --IN type 'Robot|Android'
+
 Please be aware that this is just a text matching tool for indented
 result of L<jq(1)> command.  So, for example, C<.commit.author>
 includes everything under it and it maches C<committer> field name.
@@ -37,7 +46,7 @@ Use L<jq(1)> filter for more complex and precise operation.
 =head1 CAUTION
 
 L<greple(1)> commands read entire input before processing.  So it
-should not be used for large amount of data or inifinite stream.
+should not be used for gigantic data or inifinite stream.
 
 =head1 INSTALL
 
@@ -77,7 +86,7 @@ Specify negative condition.
 =item B<--MUST> I<label> I<pattern>
 
 Specify required condition.  If there is one or more required
-condition, all other positive rules becomes optional.  They are not
+condition, all other positive rules move to optional.  They are not
 required but highliged if exist.
 
 =back
@@ -168,15 +177,21 @@ Use C<--all> option to show entire data.
 Use C<--nocolor> option or set C<NO_COLOR=1> to disable colored
 output.
 
-Use C<--blockend=> option to cancel showing block separator.
-
 Use C<-o> option to show only matched part.
+
+Use C<--blockend=> option to cancel showing block separator.
 
 Sine this module implements original search funciton, L<greple(1)>
 B<-i> does not take effect.  Set modifier in regex like
 C<(?i)pattern> if you want case-insensitive match.
 
-Use -C<-Mjq::debug=> to see actual regex.
+Use C<-Mjq::debug=> to see actual regex.
+
+Use C<--color=always> and set C<LESSANSIENDCHARS=mK> if you want to
+see the output using L<less(1)>.  Put next line in your F<~/.greplerc>
+to enable colored output always.
+
+    option default --color=always
 
 =head1 SEE ALSO
 
