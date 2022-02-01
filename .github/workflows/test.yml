@@ -30,5 +30,6 @@ jobs:
 #          tools: App::Greple
       - run: perl -V
       - run: cpanm --installdeps --notest App::Greple
+      - run: perldoc -ml App::Greple
       - run: cpanm --installdeps --notest .
       - run: prove -lvr t
