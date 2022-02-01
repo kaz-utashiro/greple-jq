@@ -67,6 +67,16 @@ should not be used for large amount of data or inifinite stream.
     If labels are separated by two or more dots (`..`), they don't have
     to have direct relationship.
 
+- **--NOT** _label_ _pattern_
+
+    Specify negative condition.
+
+- **--MUST** _label_ _pattern_
+
+    Specify required condition.  If there is one or more required
+    condition, all other positive rules becomes optional.  They are not
+    required but highliged if exist.
+
 # LABEL SYNTAX
 
 - **.file**

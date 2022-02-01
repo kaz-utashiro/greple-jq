@@ -70,6 +70,16 @@ C<process> hash.
 If labels are separated by two or more dots (C<..>), they don't have
 to have direct relationship.
 
+=item B<--NOT> I<label> I<pattern>
+
+Specify negative condition.
+
+=item B<--MUST> I<label> I<pattern>
+
+Specify required condition.  If there is one or more required
+condition, all other positive rules becomes optional.  They are not
+required but highliged if exist.
+
 =back
 
 =head1 LABEL SYNTAX
@@ -282,3 +292,12 @@ option --json-block --block JSON-OBJECTS
 option --IN \
 	--face +E \
 	--le &__PACKAGE__::IN(label=$<shift>,pattern=$<shift>)
+
+option --AND --IN
+
+option --MUST \
+	--face +E \
+	--le +&__PACKAGE__::IN(label=$<shift>,pattern=$<shift>)
+
+option --NOT \
+	--le -&__PACKAGE__::IN(label=$<shift>,pattern=$<shift>)
