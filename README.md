@@ -7,6 +7,10 @@ greple -Mjq - greple module for jq frontend
 
 greple -Mjq --glob JSON-DATA --IN label pattern
 
+# VERSION
+
+Version 0.03
+
 # DESCRIPTION
 
 This is an experimental module for [App::Greple](https://metacpan.org/pod/App::Greple) command to provide
@@ -105,28 +109,38 @@ should not be used for large amount of data or inifinite stream.
 
 Search from any `name` labels.
 
-    greple -Mjq --glob procmon.json --IN name _mina
+    greple -Mjq --IN name _mina
 
 Search from `.process.name` label.
 
-    greple -Mjq --glob procmon.json --IN .process.name _mina
+    greple -Mjq --IN .process.name _mina
 
 Object `.process.name` contains `_mina` and `.event` contains
-`FORK`.
+`EXEC`.
 
-    greple -Mjq --glob procmon.json --IN .process.name _mina --IN .event FORK
+    greple -Mjq --IN .process.name _mina --IN .event EXEC
 
-Object `ancestors` contains `339` and `.event` contains `FORK`.
+Object `ppid` is 803 and `.event` contains `FORK` or `EXEC`.
 
-    greple -Mjq --glob procmon.json --IN ancestors 339 --IN event FORK
+    greple -Mjq --IN ppid 803 --IN event 'FORK|EXEC'
 
-Object `*pid` labels contains 803.
+Object `name` is `_mina` and `.event` contains `CREATE`.
 
-    greple -Mjq --glob procmon.json --IN %pid 803
+    greple -Mjq --IN name _mina --IN event 'CREATE'
 
-Object any <path> contains `_mira` under `.file` and `.event` contains `WRITE`.
+Object `ancestors` contains `1132` and `.event` contains `EXEC`
+with `arguments` highlighted.
 
-    greple -Mjq --glob filemon.json --IN .file..path _mina --IN .event WRITE
+    greple -Mjq --IN ancestors 1132 --IN event EXEC --IN arguments .
+
+Object `*pid` label contains 803.
+
+    greple -Mjq --IN %pid 803
+
+Object any <path> contains `_mira` under `.file` and `.event`
+contains `WRITE`.
+
+    greple -Mjq --IN .file..path _mina --IN .event WRITE
 
 # TIPS
 
@@ -142,6 +156,8 @@ Use `-o` option to show only matched part.
 Sine this module implements original search funciton, [greple(1)](http://man.he.net/man1/greple)
 **-i** does not take effect.  Set modifier in regex like
 `(?i)pattern` if you want case-insensitive match.
+
+Use -`-Mjq::debug=` to see actual regex.
 
 # SEE ALSO
 

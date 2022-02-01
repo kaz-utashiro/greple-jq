@@ -8,6 +8,10 @@ greple -Mjq - greple module for jq frontend
 
 greple -Mjq --glob JSON-DATA --IN label pattern
 
+=head1 VERSION
+
+Version 0.03
+
 =head1 DESCRIPTION
 
 This is an experimental module for L<App::Greple> command to provide
@@ -114,28 +118,38 @@ Any labels include C<path>.
 
 Search from any C<name> labels.
 
-    greple -Mjq --glob procmon.json --IN name _mina
+    greple -Mjq --IN name _mina
 
 Search from C<.process.name> label.
 
-    greple -Mjq --glob procmon.json --IN .process.name _mina
+    greple -Mjq --IN .process.name _mina
 
 Object C<.process.name> contains C<_mina> and C<.event> contains
-C<FORK>.
+C<EXEC>.
 
-    greple -Mjq --glob procmon.json --IN .process.name _mina --IN .event FORK
+    greple -Mjq --IN .process.name _mina --IN .event EXEC
 
-Object C<ancestors> contains C<339> and C<.event> contains C<FORK>.
+Object C<ppid> is 803 and C<.event> contains C<FORK> or C<EXEC>.
 
-    greple -Mjq --glob procmon.json --IN ancestors 339 --IN event FORK
+    greple -Mjq --IN ppid 803 --IN event 'FORK|EXEC'
 
-Object C<*pid> labels contains 803.
+Object C<name> is C<_mina> and C<.event> contains C<CREATE>.
 
-    greple -Mjq --glob procmon.json --IN %pid 803
+    greple -Mjq --IN name _mina --IN event 'CREATE'
 
-Object any <path> contains C<_mira> under C<.file> and C<.event> contains C<WRITE>.
+Object C<ancestors> contains C<1132> and C<.event> contains C<EXEC>
+with C<arguments> highlighted.
 
-    greple -Mjq --glob filemon.json --IN .file..path _mina --IN .event WRITE
+   greple -Mjq --IN ancestors 1132 --IN event EXEC --IN arguments .
+
+Object C<*pid> label contains 803.
+
+    greple -Mjq --IN %pid 803
+
+Object any <path> contains C<_mira> under C<.file> and C<.event>
+contains C<WRITE>.
+
+    greple -Mjq --IN .file..path _mina --IN .event WRITE
 
 =head1 TIPS
 
@@ -151,6 +165,8 @@ Use C<-o> option to show only matched part.
 Sine this module implements original search funciton, L<greple(1)>
 B<-i> does not take effect.  Set modifier in regex like
 C<(?i)pattern> if you want case-insensitive match.
+
+Use -C<-Mjq::debug=> to see actual regex.
 
 =head1 SEE ALSO
 
@@ -195,7 +211,6 @@ my $indent_re = qr/$indent/;
 
 sub leader_regex {
     my $leader = shift;
-
     my @lead_re;
     while ($leader =~ s/^([^.\n]*?)(\.+)//) {
 	my($lead, $dot) = ($1, $2);
@@ -244,12 +259,10 @@ sub IN {
 	(?(<level>) (?= \g{level} $indent_re \S ) )	# required level
 	(?<in> [ ]*) "$label": [ ]*+
 	(?: . | \n\g{in} \s++ ) *
-	$pattern
+	(?> $pattern )
 	(?: . | \n\g{in} (?: \s++ | [\]\}] ) ) *
     }xm;
-
-    warn Dumper $re if $debug;
-
+    warn "$re\n" if $debug;
     match_regions pattern => $re;
 }
 
