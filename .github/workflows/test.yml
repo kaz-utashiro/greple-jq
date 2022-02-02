@@ -25,7 +25,7 @@ jobs:
         uses: shogo82148/actions-setup-perl@v1
         with:
           perl-version: ${{ matrix.perl }}
-      - uses: office-tecoli/actions-use-perl-tools@v0-beta
+      - uses: office-tecoli/actions-use-perl-tools@v0
         with:
           tools: App::Greple
       - run: cpanm --installdeps --notest .
