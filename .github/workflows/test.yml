@@ -2,8 +2,7 @@ name: test
 
 on:
   push:
-    paths-ignore:
-      - '**.md'
+    paths-ignore: [ '**.md' ]
   pull_request:
   workflow_dispatch:
 
@@ -16,8 +15,7 @@ jobs:
     name: Perl ${{ matrix.perl }}
     steps:
       - uses: actions/checkout@v2
-        with:
-          submodules: recursive
+        with: { submodules: recursive }
       - uses: office-tecoli/actions-use-apt-tools@v0
         with:
           tools: jq
