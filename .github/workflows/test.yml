@@ -38,6 +38,7 @@ jobs:
       - uses: office-tecoli/actions-use-perl-tools@v0
         with:
           tools: App::cpanminus
+          sudo: true
       - run: cpanm --installdeps --notest .
       - run: prove -lvr t
 
@@ -49,5 +50,6 @@ jobs:
       - uses: office-tecoli/actions-use-perl-tools@v0
         with:
           tools: App::cpanminus
+          sudo: true
       - run: cpanm --installdeps --notest .
       - run: prove -lvr t
