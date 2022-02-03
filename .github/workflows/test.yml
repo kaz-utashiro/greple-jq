@@ -35,7 +35,7 @@ jobs:
       - uses: office-tecoli/actions-use-apt-tools@v0
         with:
           tools: jq cpanminus
-      - run: cpanm --installdeps --notest .
+      - run: sudo cpanm --installdeps --notest .
       - run: prove -lvr t
 
   without-jq-installed:
@@ -46,5 +46,5 @@ jobs:
       - uses: office-tecoli/actions-use-apt-tools@v0
         with:
           tools: cpanminus
-      - run: cpanm --installdeps --notest .
+      - run: sudo cpanm --installdeps --notest .
       - run: prove -lvr t
