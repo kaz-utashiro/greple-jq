@@ -176,7 +176,10 @@ Sine this module implements original search funciton, [greple(1)](http://man.he.
 **-i** does not take effect.  Set modifier in regex like
 `(?i)pattern` if you want case-insensitive match.
 
-Use `-Mjq::debug=` to see actual regex.
+Use `-Mjq::set=debug` to see actual regex.
+
+Use `-Mjq::set=noif` if you don't have to use [jq](https://metacpan.org/pod/jq) as an input
+filter.
 
 Use `--color=always` and set `LESSANSIENDCHARS=mK` if you want to
 see the output using [less(1)](http://man.he.net/man1/less).  Put next line in your `~/.greplerc`

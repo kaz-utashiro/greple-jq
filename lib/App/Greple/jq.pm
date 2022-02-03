@@ -185,7 +185,10 @@ Since this module implements original search function, L<greple(1)>
 B<-i> does not take effect.  Set modifier in regex like C<(?i)pattern>
 if you want case-insensitive match.
 
-Use C<-Mjq::debug=> to see actual regex.
+Use C<-Mjq::set=debug> to see actual regex.
+
+Use C<-Mjq::set=noif> if you don't have to use L<jq> as an input
+filter.  Data have to be well-formatted in that case.
 
 Use C<--color=always> and set C<LESSANSIENDCHARS=mK> if you want to
 see the output using L<less(1)>.  Put next line in your F<~/.greplerc>
@@ -228,11 +231,21 @@ use App::Greple::Common;
 use App::Greple::Regions qw(match_regions merge_regions);
 use Data::Dumper;
 
-my $debug;
-sub debug { $debug ^= 1 }
+my %config;
+sub set {
+    %config = @_;
+}
 
 my $indent = '  ';
 my $indent_re = qr/$indent/;
+
+sub finalize {
+    my($mod, $argv) = @_;
+    if ($config{noif}) {
+	my @default = $mod->default;
+	$mod->setopt(default => grep { $_ ne '--jq-filter' } @default);
+    }
+}
 
 sub re {
     my $pattern = shift;
@@ -303,7 +316,7 @@ sub IN {
 	$pattern_re					# pattern
 	(?: . | \n\g{in} (?: \s++ | [\]\}] ) ) *	# and take the rest
     }xm;
-    warn "$re\n" if $debug;
+    warn "$re\n" if $config{debug};
     match_regions pattern => $re;
 }
 
