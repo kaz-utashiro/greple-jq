@@ -35,6 +35,9 @@ jobs:
       - uses: office-tecoli/actions-use-apt-tools@v0
         with:
           tools: jq
+      - uses: office-tecoli/actions-use-perl-tools@v0
+        with:
+          tools: App::cpanminus
       - run: cpanm --installdeps --notest .
       - run: prove -lvr t
 
@@ -43,5 +46,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with: { submodules: recursive }
+      - uses: office-tecoli/actions-use-perl-tools@v0
+        with:
+          tools: App::cpanminus
       - run: cpanm --installdeps --notest .
       - run: prove -lvr t
