@@ -7,6 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
+
   build:
     runs-on: ubuntu-latest
     strategy:
@@ -23,8 +24,24 @@ jobs:
         uses: shogo82148/actions-setup-perl@v1
         with:
           perl-version: ${{ matrix.perl }}
-      - uses: office-tecoli/actions-use-perl-tools@v0
+      - run: cpanm --installdeps --notest .
+      - run: prove -lvr t
+
+  system-default-perl:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with: { submodules: recursive }
+      - uses: office-tecoli/actions-use-apt-tools@v0
         with:
-          tools: App::Greple
+          tools: jq
+      - run: cpanm --installdeps --notest .
+      - run: prove -lvr t
+
+  without-jq-installed:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with: { submodules: recursive }
       - run: cpanm --installdeps --notest .
       - run: prove -lvr t
