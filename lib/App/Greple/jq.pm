@@ -232,9 +232,9 @@ use App::Greple::Regions qw(match_regions merge_regions);
 use Data::Dumper;
 
 my %config;
-sub set {
-    %config = @_;
-}
+sub set   { %config = @_ }
+sub debug { set debug => 1 }
+sub noif  { set noif  => 1 }
 
 my $indent = '  ';
 my $indent_re = qr/$indent/;
