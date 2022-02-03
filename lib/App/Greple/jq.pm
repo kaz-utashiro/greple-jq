@@ -10,7 +10,7 @@ greple -Mjq --glob JSON-DATA --IN label pattern
 
 =head1 VERSION
 
-Version 0.04
+Version 0.05
 
 =head1 DESCRIPTION
 
@@ -222,7 +222,7 @@ use strict;
 use warnings;
 use Carp;
 
-our $VERSION = "0.04";
+our $VERSION = "0.05";
 
 use Exporter 'import';
 our @EXPORT = qw(&jq_filter);
