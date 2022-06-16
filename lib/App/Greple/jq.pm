@@ -172,29 +172,49 @@ contains C<WRITE>.
 
 =head1 TIPS
 
+=over 2
+
+=item *
+
 Use C<--all> option to show entire data.
+
+=item *
 
 Use C<--nocolor> option or set C<NO_COLOR=1> to disable colored
 output.
 
+=item *
+
 Use C<-o> option to show only matched part.
 
+=item *
+
 Use C<--blockend=> option to cancel showing block separator.
+
+=item *
 
 Since this module implements original search function, L<greple(1)>
 B<-i> does not take effect.  Set modifier in regex like C<(?i)pattern>
 if you want case-insensitive match.
 
+=item *
+
 Use C<-Mjq::set=debug> to see actual regex.
+
+=item *
 
 Use C<-Mjq::set=noif> if you don't have to use L<jq> as an input
 filter.  Data have to be well-formatted in that case.
+
+=item *
 
 Use C<--color=always> and set C<LESSANSIENDCHARS=mK> if you want to
 see the output using L<less(1)>.  Put next line in your F<~/.greplerc>
 to enable colored output always.
 
     option default --color=always
+
+=back
 
 =head1 SEE ALSO
 
