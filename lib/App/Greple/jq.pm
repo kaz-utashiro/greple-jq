@@ -53,8 +53,6 @@ should not be used for gigantic data or infinite stream.
 =head2 CPANMINUS
 
     $ cpanm App::Greple::jq
-    or
-    $ curl -sL http://cpanmin.us | perl - App::Greple::jq
 
 =head1 OPTIONS
 

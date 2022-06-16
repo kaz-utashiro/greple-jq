@@ -1,5 +1,5 @@
 name = "App-Greple-jq"
-badges = [ 'github-actions/test' ]
+badges = [ 'github-actions/test', 'metacpan' ]
 authority="cpan:UTASHIRO"
 
 module_maker="ModuleBuildTiny"

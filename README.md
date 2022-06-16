@@ -1,4 +1,4 @@
-[![Actions Status](https://github.com/kaz-utashiro/greple-jq/workflows/test/badge.svg)](https://github.com/kaz-utashiro/greple-jq/actions)
+[![Actions Status](https://github.com/kaz-utashiro/greple-jq/workflows/test/badge.svg)](https://github.com/kaz-utashiro/greple-jq/actions) [![MetaCPAN Release](https://badge.fury.io/pl/App-Greple-jq.svg)](https://metacpan.org/release/App-Greple-jq)
 # NAME
 
 greple -Mjq - greple module to search JSON data with jq
@@ -52,8 +52,6 @@ should not be used for gigantic data or infinite stream.
 ## CPANMINUS
 
     $ cpanm App::Greple::jq
-    or
-    $ curl -sL http://cpanmin.us | perl - App::Greple::jq
 
 # OPTIONS
 
