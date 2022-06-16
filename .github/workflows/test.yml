@@ -35,6 +35,7 @@ jobs:
       - uses: office-tecoli/actions-use-apt-tools@v0
         with:
           tools: jq cpanminus
+          method: timestamp
       - run: sudo cpanm --installdeps --notest .
       - run: prove -lvr t
 
@@ -46,5 +47,6 @@ jobs:
       - uses: office-tecoli/actions-use-apt-tools@v0
         with:
           tools: cpanminus
+          method: timestamp
       - run: sudo cpanm --installdeps --notest .
       - run: prove -lvr t
