@@ -346,25 +346,18 @@ __DATA__
 
 define JSON-OBJECTS ^([ ]*)\{(?s:.*?)^\g{-1}\},?\n
 
-option default \
-	--json-block --jq-filter
+option default --json-block --jq-filter
 
 option --jq-filter --if='jq "if type == \"array\" then .[] else . end"'
 
 option --json-block --block JSON-OBJECTS
 
-option --IN \
-	--face +E \
-	--le &__PACKAGE__::IN(label=$<shift>,pattern=$<shift>)
+define CALL_IN __PACKAGE__::IN(label=$<shift>,pattern=$<shift>)
 
-option --AND --IN
-
-option --MUST \
-	--face +E \
-	--le +&__PACKAGE__::IN(label=$<shift>,pattern=$<shift>)
-
-option --NOT \
-	--le -&__PACKAGE__::IN(label=$<shift>,pattern=$<shift>)
+option --AND  --IN
+option --IN   --le  &CALL_IN --face +E
+option --MUST --le +&CALL_IN --face +E
+option --NOT  --le -&CALL_IN
 
 #  LocalWords:  JSON jq json Zaphod greple CPANMINUS cpanm
 #  LocalWords:  perl pid regex LESSANSIENDCHARS greplerc Kazumasa Mjq
