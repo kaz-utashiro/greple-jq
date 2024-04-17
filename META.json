@@ -4,7 +4,7 @@
       "Kazumasa Utashiro"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Minilla/v3.1.19, CPAN::Meta::Converter version 2.150010",
+   "generated_by" : "Minilla/v3.1.23, CPAN::Meta::Converter version 2.150010",
    "license" : [
       "perl_5"
    ],
@@ -64,11 +64,11 @@
          "web" : "https://github.com/kaz-utashiro/greple-jq"
       }
    },
-   "version" : "0.05",
+   "version" : "0.06",
    "x_authority" : "cpan:UTASHIRO",
    "x_contributors" : [
       "Kazumasa Utashiro <kaz@utashiro.com>"
    ],
-   "x_serialization_backend" : "JSON::PP version 4.07",
+   "x_serialization_backend" : "JSON::PP version 4.12",
    "x_static_install" : 1
 }

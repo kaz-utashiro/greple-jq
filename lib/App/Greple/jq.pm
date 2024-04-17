@@ -10,7 +10,7 @@ greple -Mjq --glob JSON-DATA --IN label pattern
 
 =head1 VERSION
 
-Version 0.05
+Version 0.06
 
 =head1 DESCRIPTION
 
@@ -226,7 +226,7 @@ Kazumasa Utashiro
 
 =head1 LICENSE
 
-Copyright 2022 Kazumasa Utashiro
+Copyright ©︎ 2022-2024 Kazumasa Utashiro
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
@@ -240,7 +240,7 @@ use strict;
 use warnings;
 use Carp;
 
-our $VERSION = "0.05";
+our $VERSION = "0.06";
 
 use Exporter 'import';
 our @EXPORT = qw(&jq_filter);
