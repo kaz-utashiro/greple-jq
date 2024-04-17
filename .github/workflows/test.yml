@@ -24,7 +24,7 @@ jobs:
         uses: shogo82148/actions-setup-perl@v1
         with:
           perl-version: ${{ matrix.perl }}
-      - run: cpanm --installdeps --notest .
+      - run: cpanm --installdeps --notest --quiet .
       - run: prove -lvr t
 
   system-default-perl:
@@ -36,7 +36,7 @@ jobs:
         with:
           tools: jq cpanminus
           method: timestamp
-      - run: sudo cpanm --installdeps --notest .
+      - run: sudo cpanm --installdeps --notest --quiet .
       - run: prove -lvr t
 
   without-jq-installed:
@@ -48,5 +48,5 @@ jobs:
         with:
           tools: cpanminus
           method: timestamp
-      - run: sudo cpanm --installdeps --notest .
+      - run: sudo cpanm --installdeps --notest --quiet .
       - run: prove -lvr t
